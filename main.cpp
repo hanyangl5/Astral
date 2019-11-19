@@ -1,10 +1,10 @@
 #include "float.h"
-#include "hittablelist.h"
-#include "sphere.h"
-
-
-
+#include "include/hittablelist.h"
+#include "include/sphere.h"
+#include "include/camera.h"
+#include "include/random.h"
 #include <fstream>
+
 #include <string>
 #include <iostream>
 
@@ -32,8 +32,9 @@ int main(){
 		exit(-1);
 	}
 
-	int nx=600; //width
-	int ny=360; //height
+	int nx=1920; //width
+	int ny=1080; //height
+	int ns=100; //multiple rays
 
 	file<<"P3\n"<<nx<<" "<<ny<<"\n255\n";
 
@@ -43,22 +44,28 @@ int main(){
 	vec3 vertical(0.0,2.0,0.0);
 	vec3 origin(0.0,0.0,0.0);
 
-	hittable *list[2];
-    list[0] = new sphere(vec3(0,0,-1), 0.5);
+	hittable *list[2];//init two sphere
+    list[0] = new sphere(vec3(-0.5,0,-1), 0.5);
     list[1] = new sphere(vec3(0,-100.5,-1), 100);
-    hittable *world = new hittable_list(list,2);
-
+    list[2] = new sphere(vec3(0.5,0.1,-1), 0.3);
+    hittable *world = new hittable_list(list,3);
+    camera cam;
 	for(int j=ny-1;j>=0;j--){ 
 		// up to down
 		for(int i=0;i<nx;i++){
 			//left to right
-			float u=float(i)/float(nx);
-			float v=float(j)/float(ny);
-			// create light for each pixel
-			ray r(origin,lower_left_corner+u*horizontal+v*vertical);
-			//range (-1.-1.-1) to (3,1,-1)
-     		vec3 p = r.point_at_parameter(2.0);
-            vec3 col = color(r, world);
+			vec3 col(0, 0, 0);
+
+			//
+            for (int s = 0; s < ns; s++) {
+            	//let each ray hit the sphere
+                float u = float(i + random_double()) / float(nx);
+                float v = float(j + random_double()) / float(ny);
+                ray r = cam.get_ray(u, v);
+                col += color(r, world);//acumulate color
+            	}
+            //average the color
+            col /= float(ns);
 			
 			int ir=int(255.99*col[0]);
 			int ig=int(255.99*col[1]);
