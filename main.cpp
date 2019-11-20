@@ -12,9 +12,9 @@
 //calculate color
 vec3 color(const ray& r, hittable *world) {
     hit_record rec;
-    if (world->hit(r, 0.0, FLT_MAX, rec)) {
+    if (world->hit(r, 0.001, FLT_MAX, rec)) {//ignore hits very near zero:
         vec3 target = rec.p + rec.normal + random_in_unit_sphere();
-        return 0.5 * color(ray(rec.p, target - rec.p), world);
+        return 0.5 * color(ray(rec.p, target - rec.p), world);//reflect 90% of the light
     }
     else {
         vec3 unit_direction = unit_vector(r.direction());
@@ -26,16 +26,16 @@ vec3 color(const ray& r, hittable *world) {
 int main(){
 
 	std::cout<<"test1";
-	std::string path="test/diffuse.ppm";
+	std::string path="test/diffuse2.ppm";
 	std::ofstream file(path.c_str());
 	if(!file){
 		std::cerr<<"failed to create file ";
 		exit(-1);
 	}
 
-	int nx=200; //width
-	int ny=150; //height
-	int ns=50; //multiple rays
+	int nx=600; //width
+	int ny=360; //height
+	int ns=100; //multiple rays
 
 	file<<"P3\n"<<nx<<" "<<ny<<"\n255\n";
 
@@ -45,8 +45,8 @@ int main(){
 	vec3 vertical(0.0,2.0,0.0);
 	vec3 origin(0.0,0.0,0.0);
 
-	hittable *list[2];//init two sphere
-    list[0] = new sphere(vec3(-0.5,0,-1), 0.5);
+	hittable *list[3];//init two sphere
+    list[0] = new sphere(vec3(0.0,0,-1), 0.5);
     list[1] = new sphere(vec3(0,-100.5,-1), 100);
     list[2] = new sphere(vec3(0.5,0.1,-1), 0.3);
     hittable *world = new hittable_list(list,3);
@@ -67,7 +67,7 @@ int main(){
             	}
             //average the color
             col /= float(ns);
-			
+			col = vec3( sqrt(col[0]), sqrt(col[1]), sqrt(col[2]) );//gamma correction
 			int ir=int(255.99*col[0]);
 			int ig=int(255.99*col[1]);
 			int ib=int(255.99*col[2]);

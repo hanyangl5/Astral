@@ -3,9 +3,17 @@
 ## features:
 
 ### output image
+
 ### vec3 class
+
 ### ray, camera, background
+
 ### sphere class
+
 ### multiple objects
+
 ### antialisaing
-### diffuse
+
+### diffuse 
+fixed shadow cane problem
+gamma correction
