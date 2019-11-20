@@ -8,3 +8,4 @@
 ### sphere class
 ### multiple objects
 ### antialisaing
+### diffuse

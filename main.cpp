@@ -13,7 +13,8 @@
 vec3 color(const ray& r, hittable *world) {
     hit_record rec;
     if (world->hit(r, 0.0, FLT_MAX, rec)) {
-        return 0.5*vec3(rec.normal.x()+1, rec.normal.y()+1, rec.normal.z()+1);
+        vec3 target = rec.p + rec.normal + random_in_unit_sphere();
+        return 0.5 * color(ray(rec.p, target - rec.p), world);
     }
     else {
         vec3 unit_direction = unit_vector(r.direction());
@@ -25,16 +26,16 @@ vec3 color(const ray& r, hittable *world) {
 int main(){
 
 	std::cout<<"test1";
-	std::string path="test/test3.ppm";
+	std::string path="test/diffuse.ppm";
 	std::ofstream file(path.c_str());
 	if(!file){
 		std::cerr<<"failed to create file ";
 		exit(-1);
 	}
 
-	int nx=1920; //width
-	int ny=1080; //height
-	int ns=100; //multiple rays
+	int nx=200; //width
+	int ny=150; //height
+	int ns=50; //multiple rays
 
 	file<<"P3\n"<<nx<<" "<<ny<<"\n255\n";
 
