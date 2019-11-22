@@ -16,4 +16,8 @@
 
 ### diffuse 
 fixed shadow cane problem
+
 gamma correction
+
+### specular
+
