@@ -1,6 +1,6 @@
 import numpy as np
 import cv2
-path='test/AA100.ppm'
+path='test/spec.ppm'
 img = cv2.imread(path)
 
 cv2.namedWindow('image',cv2.WINDOW_NORMAL)
