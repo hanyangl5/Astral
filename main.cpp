@@ -74,14 +74,15 @@ int main() {
     unsigned char rgb[nx * ny * 3], *p = rgb;
     FILE *fp = fopen("test.png", "wb");
 
-    vec3 lookfrom(0,13,0);
-    vec3 lookat(0,0,0);
-    float dist_to_focus=10;
-    float aperture=0.01;
-    camera cam(lookfrom, lookat, vec3(0,1,0), 20, float(nx)/float(ny), aperture, dist_to_focus);
+	vec3 lookfrom(0,10,0);
+	vec3 lookat(0,0,-1);
+	float dist_to_focus = (lookfrom-lookat).length();
+	float aperture = 0.01;
 
-    hittable *world = random_scene();
+	camera cam(lookfrom, lookat, vec3(0,1,0), 50,
+           float(nx)/float(ny), aperture, dist_to_focus);
 
+	hittable *world=random_scene();
     for (int j = ny-1; j >= 0; j--){
         for (int i = 0; i < nx; i++) {
             vec3 col(0,0,0);
