@@ -1,9 +1,11 @@
 #ifndef MATERIAL
 #define MATERIAL 
 
-vec3 reflect(const vec3& v, const vec3& n) {
-    return v - 2*dot(v,n)*n;
-}
+#include "hittable.h"
+#include "ray.h"
+#include "texture.h"
+#include "random.h"
+
 
 bool refract(const vec3& v, const vec3& n, float ni_over_nt, vec3& refracted) {
     vec3 uv = unit_vector(v);
@@ -16,6 +18,11 @@ bool refract(const vec3& v, const vec3& n, float ni_over_nt, vec3& refracted) {
     else
         return false;
 }
+
+vec3 reflect(const vec3& v, const vec3& n) {
+    return v - 2*dot(v,n)*n;
+}
+
 
 float schlick(float cosine, float ref_idx) {
     float r0 = (1-ref_idx) / (1+ref_idx);
@@ -36,15 +43,15 @@ public:
 
 class lambertian : public material {
     public:
-        lambertian(const vec3& a) : albedo(a) {}
-        virtual bool scatter(const ray& r_in, const hit_record& rec, vec3& attenuation, ray& scattered) const {
+        lambertian(texture *a) : albedo(a) {}
+        virtual bool scatter(const ray& r_in, const hit_record& rec,
+                             vec3& attenuation, ray& scattered) const {
             vec3 target = rec.p + rec.normal + random_in_unit_sphere();
-            scattered = ray(rec.p, target-rec.p);
-            attenuation = albedo;
+            scattered = ray(rec.p, target - rec.p);
+            attenuation = albedo->value(10, 0, rec.p);
             return true;
         }
-
-        vec3 albedo;
+        texture *albedo;
 };
 
 class metal : public material {

@@ -4,6 +4,7 @@
 #include "camera.h"
 #include "random.h"
 #include "material.h"
+#include "texture.h"
 #include<cfloat>
 
 vec3 color(const ray& r, hittable *world, int depth) {
@@ -26,63 +27,37 @@ vec3 color(const ray& r, hittable *world, int depth) {
 }
 
 
-hittable *random_scene() {
-    int n = 500;
+hittable *two_spheres() {
+    texture *checker = new checker_texture(
+        new constant_texture(vec3(0.2, 0.3, 0.1)),
+        new constant_texture(vec3(0.9, 0.9, 0.9))
+    );
+    texture* simple=new constant_texture(vec3(0.5,0.5,0.5));
+
+
+    int n = 50;
     hittable **list = new hittable*[n+1];
-    list[0] =  new sphere(vec3(0,-1000,0), 1000, new lambertian(vec3(0.5, 0.5, 0.5)));
-    int i = 1;
-    for (int a = -11; a < 11; a++) {
-        for (int b = -11; b < 11; b++) {
-            float choose_mat = random_double();
-            vec3 center(a+0.9*random_double(),0.2,b+0.9*random_double());
-            if ((center-vec3(4,0.2,0)).length() > 0.9) {
-                if (choose_mat < 0.8) {  // diffuse
-                    list[i++] = new sphere(
-                        center, 0.2,
-                        new lambertian(vec3(random_double()*random_double(),
-                                            random_double()*random_double(),
-                                            random_double()*random_double()))
-                    );
-                }
-                else if (choose_mat < 0.95) { // metal
-                    list[i++] = new sphere(
-                        center, 0.2,
-                        new metal(vec3(0.5*(1 + random_double()),
-                                       0.5*(1 + random_double()),
-                                       0.5*(1 + random_double())),
-                                  0.5*random_double())
-                    );
-                }
-                else {  // glass
-                    list[i++] = new sphere(center, 0.2, new dielectric(1.5));
-                }
-            }
-        }
-    }
-
-    list[i++] = new sphere(vec3(0, 1, 0), 1.0, new dielectric(1.5));
-    list[i++] = new sphere(vec3(-4, 1, 0), 1.0, new lambertian(vec3(0.4, 0.2, 0.1)));
-    list[i++] = new sphere(vec3(4, 1, 0), 1.0, new metal(vec3(0.7, 0.6, 0.5), 0.0));
-
-    return new hittable_list(list,i);
+    list[0] = new sphere(vec3(0,-10, 0), 10, new lambertian(checker));
+    list[1] = new sphere(vec3(0, 10, 0), 10, new lambertian(simple));
+    return new hittable_list(list,2);
 }
 
 
 int main() {
 
-    int nx=600,ny=300,ns=100;
+    int nx=600,ny=300,ns=30;
     unsigned char rgb[nx * ny * 3], *p = rgb;
     FILE *fp = fopen("test.png", "wb");
 
-	vec3 lookfrom(0,10,0);
-	vec3 lookat(0,0,-1);
-	float dist_to_focus = (lookfrom-lookat).length();
-	float aperture = 0.01;
+    vec3 lookfrom(13,2,3);
+    vec3 lookat(0,0,0);
+    float dist_to_focus = 10.0;
+    float aperture = 0.0;
 
-	camera cam(lookfrom, lookat, vec3(0,1,0), 50,
-           float(nx)/float(ny), aperture, dist_to_focus);
+    camera cam(lookfrom, lookat, vec3(0,1,0), 20, float(nx)/float(ny), aperture, dist_to_focus, 0.0, 1.0);
 
-	hittable *world=random_scene();
+    hittable* world=two_spheres();
+
     for (int j = ny-1; j >= 0; j--){
         for (int i = 0; i < nx; i++) {
             vec3 col(0,0,0);
