@@ -48,11 +48,12 @@ class lambertian : public material {
                              vec3& attenuation, ray& scattered) const {
             vec3 target = rec.p + rec.normal + random_in_unit_sphere();
             scattered = ray(rec.p, target - rec.p);
-            attenuation = albedo->value(10, 0, rec.p);
+            attenuation = albedo->value(rec.u,rec.v, rec.p);
             return true;
         }
         texture *albedo;
 };
+
 
 class metal : public material {
     public:
