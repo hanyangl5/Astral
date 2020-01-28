@@ -40,7 +40,6 @@ class rainbow_texture:public texture
     public:
         rainbow_texture(){};
         virtual vec3 value(float u,float v,const vec3& p)const{
-            //std::cout<<sin(p.x())<<std::endl;
             return vec3(fabs(sin(p.x())),fabs(sin(p.y())),fabs(sin(p.z())));
         }
         ~rainbow_texture();

@@ -43,9 +43,8 @@ inline float perlin_interp(vec3 c[2][2][2], float u, float v, float w) {
         for (int j=0; j < 2; j++)
             for (int k=0; k < 2; k++) {
                 vec3 weight_v(u-i, v-j, w-k);//权重
-                accum += (i*uu + (1-i)*(1-uu))*
-                    (j*vv + (1-j)*(1-vv))*
-                    (k*ww + (1-k)*(1-ww))*dot(c[i][j][k], weight_v);
+                accum += (i*uu + (1-i)*(1-uu))*(j*vv + (1-j)*(1-vv))*(k*ww + (1-k)*(1-ww))*dot(c[i][j][k], weight_v);
+
             }
     return accum;
 }
@@ -85,7 +84,7 @@ float perlin::noise(const vec3& p) const {
                     perm_x[(i+di) & 255] ^
                     perm_y[(j+dj) & 255] ^
                     perm_z[(k+dk) & 255]
-                ];
+                ];//保留后8位
     return perlin_interp(c, u, v, w);
 }
 
