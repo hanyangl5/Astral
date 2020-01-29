@@ -1,5 +1,5 @@
-#ifndef XYRECT
-#define XYRECT 
+#ifndef XYZRECT
+#define XYZRECT 
 
 #include "hittable.h"
 
@@ -10,8 +10,8 @@ class xy_rect:public hittable
 		xy_rect(float _x0, float _x1, float _y0, float _y1, float _k, material *mat)
 	            : x0(_x0), x1(_x1), y0(_y0), y1(_y1), k(_k), mp(mat) {};
 		~xy_rect();
-		virtual bool hit(const ray& r,float t0,float t1,hit_record& rec)const;
-		virtual bool bounding_box(float t0,float t1,aabb& box)const;
+		virtual bool hit(const ray& r,float t_min,float t_max,hit_record& rec)const;
+		virtual bool bounding_box(float t_min,float t_max,aabb& box)const;
 
 		float x0,x1,y0,y1,k;
 		material *mp;
@@ -22,8 +22,8 @@ class xz_rect: public hittable {
         xz_rect() {}
         xz_rect(float _x0, float _x1, float _z0, float _z1, float _k, material *mat)
             : x0(_x0), x1(_x1), z0(_z0), z1(_z1), k(_k), mp(mat) {};
-        virtual bool hit(const ray& r, float t0, float t1, hit_record& rec) const;
-        virtual bool bounding_box(float t0, float t1, aabb& box) const;
+        virtual bool hit(const ray& r, float t_min, float t_max, hit_record& rec) const;
+        virtual bool bounding_box(float t_min, float t_max, aabb& box) const;
         
         material *mp;
         float x0, x1, z0, z1, k;
@@ -34,15 +34,15 @@ class yz_rect: public hittable {
         yz_rect() {}
         yz_rect(float _y0, float _y1, float _z0, float _z1, float _k, material *mat)
             : y0(_y0), y1(_y1), z0(_z0), z1(_z1), k(_k), mp(mat) {};
-        virtual bool hit(const ray& r, float t0, float t1, hit_record& rec) const;
-        virtual bool bounding_box(float t0, float t1, aabb& box) const;
+        virtual bool hit(const ray& r, float t_min, float t_max, hit_record& rec) const;
+        virtual bool bounding_box(float t_min, float t_max, aabb& box) const;
 
         material  *mp;
         float y0, y1, z0, z1, k;
 };
-bool xy_rect::hit(const ray& r, float t0, float t1, hit_record& rec) const {
+bool xy_rect::hit(const ray& r, float t_min, float t_max, hit_record& rec) const {
     float t = (k-r.origin().z()) / r.direction().z();
-    if (t < t0 || t > t1)
+    if (t < t_min || t > t_max)
         return false;
     float x = r.origin().x() + t*r.direction().x();
     float y = r.origin().y() + t*r.direction().y();
@@ -56,14 +56,14 @@ bool xy_rect::hit(const ray& r, float t0, float t1, hit_record& rec) const {
     rec.normal = vec3(0, 0, 1);
     return true;
 }
-bool xy_rect::bounding_box(float t0,float t1,aabb& box)const{
+bool xy_rect::bounding_box(float t_min,float t_max,aabb& box)const{
     box =  aabb(vec3(x0,y0, k-0.0001), vec3(x1, y1, k+0.0001));
     return true;
 }
 
-bool xz_rect::hit(const ray& r, float t0, float t1, hit_record& rec) const {
+bool xz_rect::hit(const ray& r, float t_min, float t_max, hit_record& rec) const {
     float t = (k-r.origin().y()) / r.direction().y();
-    if (t < t0 || t > t1)
+    if (t < t_min || t > t_max)
         return false;
     float x = r.origin().x() + t*r.direction().x();
     float z = r.origin().z() + t*r.direction().z();
@@ -78,14 +78,14 @@ bool xz_rect::hit(const ray& r, float t0, float t1, hit_record& rec) const {
     return true;
 }
 
-bool xz_rect::bounding_box(float t0, float t1, aabb& box) const {
+bool xz_rect::bounding_box(float t_min, float t_max, aabb& box) const {
     box =  aabb(vec3(x0,k-0.0001,z0), vec3(x1, k+0.0001, z1));
     return true;
 }
 
-bool yz_rect::hit(const ray& r, float t0, float t1, hit_record& rec) const {
+bool yz_rect::hit(const ray& r, float t_min, float t_max, hit_record& rec) const {
     float t = (k-r.origin().x()) / r.direction().x();
-    if (t < t0 || t > t1)
+    if (t < t_min || t > t_max)
         return false;
     float y = r.origin().y() + t*r.direction().y();
     float z = r.origin().z() + t*r.direction().z();
@@ -100,7 +100,7 @@ bool yz_rect::hit(const ray& r, float t0, float t1, hit_record& rec) const {
     return true;
 }
 
-bool yz_rect::bounding_box(float t0, float t1, aabb& box) const {
+bool yz_rect::bounding_box(float t_min, float t_max, aabb& box) const {
     box =  aabb(vec3(k-0.0001, y0, z0), vec3(k+0.0001, y1, z1));
     return true;
 }
