@@ -13,9 +13,7 @@ class hittable_list: public hittable {
         int list_size;
 };
 
-bool hittable_list::hit(const ray& r, float t_min, float t_max,
-                        hit_record& rec) const {
-
+bool hittable_list::hit(const ray& r, float t_min, float t_max, hit_record& rec) const {
     hit_record temp_rec;
     bool hit_anything = false;
     double closest_so_far = t_max;

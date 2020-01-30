@@ -54,17 +54,6 @@ bool sphere::bounding_box(float t0, float t1, aabb& box) const {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
 class moving_sphere:public hittable
 {
 public:
@@ -73,8 +62,7 @@ public:
     :center0(cen0),center1(cen1),time0(t0),time1(t1),radius(r),mat_ptr(m){};
     ~moving_sphere();
     virtual bool hit(const ray& r,float tmin,float tmax,hit_record& rec)const;
-    virtual bool bounding_box(float t0, float t1, aabb& box) const = 0;
-    //virtual bool bouding_box(float t0,float t1, aabb& box)const;
+    virtual bool bounding_box(float t0, float t1, aabb& box) const;
     vec3 center(float time)const;
 
     vec3 center0,center1;

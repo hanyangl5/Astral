@@ -20,7 +20,7 @@ class rotate_y : public hittable {
 };
 
 rotate_y::rotate_y(hittable *p, float angle) : ptr(p) {
-    float radians = (M_PI / 180.) * angle;
+    float radians = (M_PI / 180.) * angle;//转弧度
     sin_theta = sin(radians);
     cos_theta = cos(radians);
     hasbox = ptr->bounding_box(0, 1, bbox);
@@ -32,8 +32,10 @@ rotate_y::rotate_y(hittable *p, float angle) : ptr(p) {
                 float x = i*bbox.max().x() + (1-i)*bbox.min().x();
                 float y = j*bbox.max().y() + (1-j)*bbox.min().y();
                 float z = k*bbox.max().z() + (1-k)*bbox.min().z();
+
                 float newx = cos_theta*x + sin_theta*z;
                 float newz = -sin_theta*x + cos_theta*z;
+                
                 vec3 tester(newx, y, newz);
                 for ( int c = 0; c < 3; c++ )
                 {
