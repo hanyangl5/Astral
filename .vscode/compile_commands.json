@@ -1,0 +1,6 @@
+[
+{
+  "directory": "c:\\hanyanglu\\tiny-ray-tracer",
+  "arguments": ["C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.35.32215\\bin\\HostX64\\x64\\cl.exe", "/c", "/nologo", "/EHsc", "/Fobuild\\.objs\\main\\windows\\x64\\release\\source\\main.cpp.obj", "source\\main.cpp"],
+  "file": "source\\main.cpp"
+}]
