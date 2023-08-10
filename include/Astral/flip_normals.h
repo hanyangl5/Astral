@@ -1,6 +1,8 @@
 #ifndef FLIPNORMALS
 #define FLIPNORMALS
 
+#include "hittable.h"
+
 class flip_normals : public hittable {
 public:
   flip_normals(hittable *p) : ptr(p){};

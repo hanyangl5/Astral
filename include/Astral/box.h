@@ -3,7 +3,7 @@
 
 #include "flip_normals.h"
 #include "xyz_rect.h"
-
+#include "hittablelist.h"
 class box : public hittable {
 public:
   box() {}

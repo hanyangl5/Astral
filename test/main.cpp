@@ -23,7 +23,8 @@ vec3 color(const ray &r, hittable *world, int depth) {
 int main() {
 
   constexpr int nx = 300, ny = 300, ns = 20;
-  unsigned char rgb[nx * ny * 3], *p = rgb;
+  unsigned char *rgb = new unsigned char[nx * ny * 3];
+  unsigned char *p = rgb;
   FILE *fp = fopen("test.png", "wb");
 
   vec3 lookfrom(278, 278, -800);
@@ -54,5 +55,6 @@ int main() {
   }
   svpng(fp, nx, ny, rgb, 0);
   fclose(fp);
+  delete[] rgb;
   return 0;
 }
