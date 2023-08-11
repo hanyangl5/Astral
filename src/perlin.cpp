@@ -30,10 +30,7 @@ int *perlin_generate_perm() {
   return p;
 }
 
-
-namespace identifier {
-
-}
+namespace identifier {}
 vec3 *perlin::ranvec = perlin_generate();
 int *perlin::perm_x = perlin_generate_perm();
 int *perlin::perm_y = perlin_generate_perm();
@@ -69,4 +66,3 @@ float perlin::turb(const vec3 &p, int depth = 7) const {
   }
   return fabs(accum);
 }
-

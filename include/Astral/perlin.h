@@ -34,6 +34,4 @@ public:
   static int *perm_z;
 };
 
-
-
 #endif

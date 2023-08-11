@@ -3,7 +3,6 @@
 #include "hittable.h"
 #include <cfloat>
 
-
 rotate_y::rotate_y(hittable *p, float angle) : ptr(p) {
   float radians = (M_PI / 180.) * angle; //转弧度
   sin_theta = sin(radians);

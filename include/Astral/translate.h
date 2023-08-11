@@ -17,5 +17,4 @@ public:
   vec3 offset;
 };
 
-
 #endif

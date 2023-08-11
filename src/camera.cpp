@@ -11,7 +11,7 @@ vec3 random_in_unit_disk() {
 }
 
 camera::camera(vec3 lookfrom, vec3 lookat, vec3 vup, float vfov, float aspect,
-             float aperture, float focus_dist, float t0, float t1) {
+               float aperture, float focus_dist, float t0, float t1) {
   time0 = t0;
   time1 = t1;
   lens_radius = aperture / 2;

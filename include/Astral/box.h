@@ -2,8 +2,8 @@
 #define BOX
 
 #include "flip_normals.h"
-#include "xyz_rect.h"
 #include "hittablelist.h"
+#include "xyz_rect.h"
 
 class box : public hittable {
 public:
