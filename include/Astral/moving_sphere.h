@@ -1,4 +1,7 @@
 
+#pragma once
+#include "hittable.h"
+
 class moving_sphere : public hittable {
 public:
   moving_sphere() {}
@@ -13,7 +16,3 @@ public:
   float radius;
   material *mat_ptr;
 };
-
-vec3 moving_sphere::center(float time) const {
-  return center0 + ((time - time0) / (time1 - time0)) * (center1 - center0);
-}

@@ -3,6 +3,8 @@
 
 #include <string>
 
+#include <stb_image.h>
+
 #include "Astral/box.h"
 #include "Astral/bvh.h"
 #include "Astral/camera.h"
@@ -19,6 +21,7 @@
 #include "Astral/xyz_rect.h"
 
 #include <config.hpp>
+
 hittable *texture_spheres() {
 
   std::string path = ASSET_DIR;
