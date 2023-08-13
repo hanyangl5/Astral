@@ -18,17 +18,4 @@ target_include_directories(Astral SYSTEM PUBLIC
     ${CMAKE_SOURCE_DIR}/external
 )
     
-add_subdirectory(config)
-
-add_executable(test test/main.cpp)
-
-target_link_libraries(test PUBLIC Astral)
-
-target_include_directories(test PUBLIC
-    ${CMAKE_SOURCE_DIR}/include
-    ${CMAKE_SOURCE_DIR}/config
-)
-
-target_include_directories(test SYSTEM PUBLIC
-    ${CMAKE_SOURCE_DIR}/external
-)
+add_subdirectory(tests)
