@@ -9,7 +9,7 @@
 
 int main() {
 
-  constexpr int nx = 1000, ny = 1000, ns = 100;
+  constexpr int nx = 300, ny = 300, ns = 100;
   unsigned char *rgb = new unsigned char[nx * ny * 3];
   FILE *fp = fopen("test.png", "wb");
 

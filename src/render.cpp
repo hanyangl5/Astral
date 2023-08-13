@@ -38,15 +38,18 @@ void render(int w, int h, int spp, unsigned char *color_buffer, hittable *scene,
 
   auto t1 = std::chrono::system_clock().now();
   std::vector<std::thread> jobs;
-  unsigned int thread_count = std::thread::hardware_concurrency() - 1;
-  unsigned int thread_h = h / thread_count + 1;
+  int thread_count = std::thread::hardware_concurrency() - 1;
+  int thread_h = h / thread_count + 1;
   for (int i = 0; i < thread_count; i++) {
     std::thread t([&, i]() {
       unsigned char *p = color_buffer + 3 * w * thread_h * i;
-      for (int j = h - 1 - i * thread_h; j > h - 1 - (i + 1) * thread_h; j--) {
-        // std::cout<<j << i << "\n";
-        if (j < 0)
+      std::cout << h - 1 - i * thread_h << " " << h - 1 - (i + 1) * thread_h
+                << "\n";
+      for (int j = h - 1 - i * thread_h; j >= h - 1 - (i + 1) * thread_h; j--) {
+
+        if (j < 0) {
           continue;
+        }
         for (int i = 0; i < w; i++) {
           vec3 col(0, 0, 0);
           for (int s = 0; s < spp; s++) {
@@ -70,21 +73,4 @@ void render(int w, int h, int spp, unsigned char *color_buffer, hittable *scene,
   auto t2 = std::chrono::system_clock().now();
   auto duration = std::chrono::duration_cast<std::chrono::seconds>(t2 - t1);
   std::cout << "spend" << double(duration.count()) << "s\n";
-  //      unsigned char *p = color_buffer;
-  //    for (int j = h - 1; j >= 0; j--) {
-  //      for (int i = 0; i < w; i++) {
-  //        vec3 col(0, 0, 0);
-  //        for (int s = 0; s < spp; s++) {
-  //          float u = float(i + random_double()) / float(w);
-  //          float v = float(j + random_double()) / float(h);
-  //          ray r = cam->get_ray(u, v);
-  //          col += color(r, scene, 0);
-  //        }
-  //        col /= float(spp);
-  //        *p++ = int(255.99 * col[0]); /* R */
-  //        *p++ = int(255.99 * col[1]); /* G */
-  //        *p++ = int(255.99 * col[2]); /* B */
-  //      }
-
-  //   }
 }
