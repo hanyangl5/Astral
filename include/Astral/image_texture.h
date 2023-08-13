@@ -13,6 +13,4 @@ public:
   int nx, ny;
 };
 
-
-
 #endif
