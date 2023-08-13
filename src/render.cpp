@@ -14,6 +14,7 @@
 #include "texture.h"
 #include "translate.h"
 #include "xyz_rect.h"
+#include <cfloat>
 #include <chrono>
 #include <thread>
 #include <vector>

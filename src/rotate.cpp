@@ -4,7 +4,7 @@
 #include <cfloat>
 
 rotate_y::rotate_y(hittable *p, float angle) : ptr(p) {
-  float radians = (M_PI / 180.) * angle; //转弧度
+  float radians = (AST_PI / 180.) * angle; //转弧度
   sin_theta = sin(radians);
   cos_theta = cos(radians);
   hasbox = ptr->bounding_box(0, 1, bbox);

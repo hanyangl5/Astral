@@ -2,6 +2,8 @@
 #include "hittable.h"
 #include "isotropic.h"
 
+#include <cfloat>
+
 bool constant_medium::hit(const ray &r, float t_min, float t_max,
                           hit_record &rec) const {
   const bool enableDebug = false;
