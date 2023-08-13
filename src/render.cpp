@@ -34,17 +34,17 @@ vec3 color(const ray &r, hittable *world, int depth) {
 }
 
 void render(int w, int h, int spp, unsigned char *color_buffer, hittable *scene,
-            camera *cam) {
+            camera *cam, int threads) {
+
+  std::vector<std::thread> jobs;
+  int available_threads = std::thread::hardware_concurrency() - 1;
+  int thread_count = threads;
+  int thread_h = h / thread_count + 1;
 
   auto t1 = std::chrono::system_clock().now();
-  std::vector<std::thread> jobs;
-  int thread_count = std::thread::hardware_concurrency() - 1;
-  int thread_h = h / thread_count + 1;
   for (int i = 0; i < thread_count; i++) {
     std::thread t([&, i]() {
       unsigned char *p = color_buffer + 3 * w * thread_h * i;
-      std::cout << h - 1 - i * thread_h << " " << h - 1 - (i + 1) * thread_h
-                << "\n";
       for (int j = h - 1 - i * thread_h; j >= h - 1 - (i + 1) * thread_h; j--) {
 
         if (j < 0) {

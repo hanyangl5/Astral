@@ -1,0 +1,2 @@
+include(configure_project.cmake)
+configure_project(renderer)

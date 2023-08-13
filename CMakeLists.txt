@@ -17,5 +17,7 @@ target_include_directories(Astral PUBLIC
 target_include_directories(Astral SYSTEM PUBLIC
     ${CMAKE_SOURCE_DIR}/external
 )
-    
-add_subdirectory(tests)
+
+add_subdirectory(${CMAKE_SOURCE_DIR}/external/argparse)
+
+add_subdirectory(renderer)

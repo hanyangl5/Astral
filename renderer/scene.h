@@ -55,6 +55,7 @@ hittable *two_perlin_spheres() {
   list[1] = new sphere(vec3(0, 2, 0), 1, new lambertian(pertext));
   return new hittable_list(list, 2);
 }
+
 hittable *simple_light() {
   texture *pertext = new noise_texture(4);
   hittable **list = new hittable *[4];
@@ -186,6 +187,19 @@ hittable * final() {
       new translate(new rotate_y(new bvh_node(boxlist2, ns, 0.0, 1.0), 15),
                     vec3(-100, 270, 395));
   return new hittable_list(list, l);
+}
+
+inline hittable *get_scene(int index) {
+  switch (index) {
+  case 1:
+    return cornell_box();
+  case 2:
+    return cornell_smoke();
+  case 3:
+    return final();
+  default:
+    return nullptr;
+  }
 }
 
 #endif
