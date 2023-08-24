@@ -1,9 +1,8 @@
-#include "hittable.h"
 #include "triangle.h"
-
+#include "hittable.h"
 
 bool triangle::hit(const ray &r, float t_min, float t_max,
-                 hit_record &rec) const {
+                   hit_record &rec) const {
   // triangle vs ray
   auto &v1 = v[0];
   auto &v2 = v[1];
@@ -15,9 +14,9 @@ bool triangle::hit(const ray &r, float t_min, float t_max,
   vec3 S1 = cross(r.direction(), E2);
   vec3 S2 = cross(S, E1);
   float coeff = 1.0f / dot(S1, E1);
-  float t = coeff * dot(S2 , E2);
-  float b1 = coeff * dot(S1 , S);
-  float b2 = coeff * dot(S2 , r.direction());
+  float t = coeff * dot(S2, E2);
+  float b1 = coeff * dot(S1, S);
+  float b2 = coeff * dot(S2, r.direction());
   float u = 0.0f, v = 0.0f;
   if (t >= 0 && b1 >= 0 && b2 >= 0 && (1 - b1 - b2) >= 0) {
     rec.p = r.point_at_parameter(t);

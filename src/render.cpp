@@ -34,36 +34,37 @@ vec3 color(const ray &r, hittable *world, int depth) {
 }
 
 double halton_sequence(int index, int base) {
-    double result = 0.0;
-    double f = 1.0 / base;
-    int i = index;
+  double result = 0.0;
+  double f = 1.0 / base;
+  int i = index;
 
-    while (i > 0) {
-        result += f * (i % base);
-        i = i / base;
-        f /= base;
-    }
+  while (i > 0) {
+    result += f * (i % base);
+    i = i / base;
+    f /= base;
+  }
 
-    return result;
+  return result;
 }
 
-std::vector<std::pair<double, double>> generate_halton_samples(int num_samples, int base_x, int base_y) {
-    std::vector<std::pair<double, double>> samples;
+std::vector<std::pair<double, double>>
+generate_halton_samples(int num_samples, int base_x, int base_y) {
+  std::vector<std::pair<double, double>> samples;
 
-    for (int i = 0; i < num_samples; ++i) {
-        double x = halton_sequence(i + 1, base_x);
-        double y = halton_sequence(i + 1, base_y);
-        samples.push_back(std::make_pair(x, y));
-    }
+  for (int i = 0; i < num_samples; ++i) {
+    double x = halton_sequence(i + 1, base_x);
+    double y = halton_sequence(i + 1, base_y);
+    samples.push_back(std::make_pair(x, y));
+  }
 
-    return samples;
+  return samples;
 }
 
 void render(int w, int h, int spp, unsigned char *color_buffer, hittable *scene,
             camera *cam, int threads) {
 
-
-std::vector<std::pair<double, double>> samples = generate_halton_samples(spp, 2, 3);
+  std::vector<std::pair<double, double>> samples =
+      generate_halton_samples(spp, 2, 3);
 
   std::vector<std::thread> jobs;
   int available_threads = std::thread::hardware_concurrency() - 1;
