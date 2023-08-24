@@ -1,1 +1,1 @@
-#define ASSET_DIR "C:/FILES/tiny-ray-tracer/renderer/resources"
+#define ASSET_DIR "C:/hanyanglu/tiny-ray-tracer/renderer/resources"
