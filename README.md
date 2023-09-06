@@ -15,7 +15,7 @@ ray tracing in one weekend renderer
 ## Build From Source
 
 Clone the project.
-`https://github.com/hanyangl5/tiny-ray-tracer.git`
+`https://github.com/hanyangl5/Astral.git`
 
 Generate project using cmake
 `cmake . -B build -DCMAKE_BUILD_TYPE=Release -G <generator>`
